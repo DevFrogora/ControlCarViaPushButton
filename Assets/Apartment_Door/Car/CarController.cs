@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour 
 {
+    Rigidbody carRB;
+    public float centerMassY=-0.9f;
+    private void Start()
+    {
+        carRB = GetComponent<Rigidbody>();
+        carRB.centerOfMass = new Vector3(0, centerMassY, 0);
+    }
 
     [System.Serializable]
     public class Axilinfo
@@ -29,8 +36,8 @@ public class CarController : MonoBehaviour
         {
             if (axilinfo.steering == true)
             {
-                axilinfo.leftWheel.steerAngle = -steering;
-                axilinfo.rightWheel.steerAngle = -steering;
+                axilinfo.leftWheel.steerAngle = steering;
+                axilinfo.rightWheel.steerAngle = steering;
             }
             if(axilinfo.motor == true)
             {

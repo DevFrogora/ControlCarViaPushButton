@@ -18,8 +18,6 @@ public class GSerialCommunication : MonoBehaviour
         serialPort.ReadTimeout = 20;
         serialPort.Open();
         StartCoroutine(Read_SerialPort());
-
-
     }
     string temp = "";
     string s = "";
@@ -80,6 +78,7 @@ public class GSerialCommunication : MonoBehaviour
                     y = 1;
 
                 }
+
                 if (s.Contains("A"))
                 {
                     temp = temp + "A";
@@ -88,7 +87,7 @@ public class GSerialCommunication : MonoBehaviour
                 if (s.Contains("S"))
                 {
                     temp = temp + "S";
-                    y = 1;
+                    y = -1;
                 }
                 if (s.Contains("D"))
                 {
@@ -104,6 +103,7 @@ public class GSerialCommunication : MonoBehaviour
                     carLink.CarMoveCanceled(new Vector2(0, 0));
                 }
                 temp = "";
+                x = 0; y = 0;
 
             }
             catch (System.Exception e)

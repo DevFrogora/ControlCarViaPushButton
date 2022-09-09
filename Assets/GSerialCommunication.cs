@@ -6,40 +6,83 @@ using System.IO.Ports;
 public class GSerialCommunication : MonoBehaviour
 {
 
-    SerialPort serialPort= new SerialPort("COM6",9600);
+    SerialPort serialPort = new SerialPort("COM6", 9600);
     public StreetLight streetLight;
 
     void Start()
     {
         streetLight.SetLightOff();
+        serialPort.ReadTimeout = 20;
         serialPort.Open();
-        
+        StartCoroutine(Read_SerialPort());
+
+
     }
     string temp = "";
+    string s = "";
     // Update is called once per frame
-    void Update()
+    //void Update()
+    //{
+    //    if (serialPort.IsOpen)
+    //    {
+    //        try
+    //        {
+    //            s = serialPort.ReadExisting();
+    //            if (s.Contains("W"))
+    //            {
+    //                temp = temp + "W";
+
+    //            }
+    //            if (s.Contains("A"))
+    //            {
+    //                temp = temp + "A";
+    //            }
+    //            if (s.Contains("S"))
+    //            {
+    //                temp = temp + "S";
+    //            }
+    //            if (s.Contains("D"))
+    //            {
+    //                temp = temp + "D";
+    //            }
+    //            if (temp != "")
+    //            {
+    //                Debug.Log(temp);
+    //            }
+    //            temp = "";
+
+    //        }
+    //        catch (System.Exception e)
+    //        {
+    //            Debug.Log(e);
+    //        }
+    //    }
+    //}
+
+
+    IEnumerator Read_SerialPort()
     {
-        if(serialPort.IsOpen)
+        //Wait for 4 seconds
+        yield return new WaitForSeconds(1/10);
+        if (serialPort.IsOpen)
         {
             try
             {
-                string s = serialPort.ReadExisting();
-                //StartCoroutine(waiter());
-
-                if(s.Contains("W"))
+                s = serialPort.ReadLine();
+                if (s.Contains("W"))
                 {
                     temp = temp + "W";
 
                 }
-                if(s.Contains("A"))
+                if (s.Contains("A"))
                 {
                     temp = temp + "A";
                 }
-                if(s.Contains("S"))
+                if (s.Contains("S"))
                 {
                     temp = temp + "S";
                 }
-                if(s.Contains("D"))
+                if (s.Contains("D"))
                 {
                     temp = temp + "D";
                 }
@@ -48,29 +91,13 @@ public class GSerialCommunication : MonoBehaviour
                     Debug.Log(temp);
                 }
                 temp = "";
-                //if ( == 'O')
-                //{
-                //    streetLight.SetLightOn();
-                //    Debug.Log('O');
-                //}
-                //if (serialPort.ReadChar() == 'C')
-                //{
-                //    streetLight.SetLightOff();
-                //    Debug.Log('C');
-                //}
 
             }
-            catch(System.Exception e)
+            catch (System.Exception e)
             {
-                Debug.Log(e);
+                //Debug.Log(e);
             }
         }
-    }
-
-    IEnumerator waiter()
-    {
-        //Wait for 4 seconds
-        yield return new WaitForSeconds(1);
-
+        StartCoroutine(Read_SerialPort());
     }
 }
